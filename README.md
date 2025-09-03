@@ -34,7 +34,7 @@ ProyectoVisionArtificial/
 │   └── static/
 │       └── script.js
 └── README.md                  # Este archivo
-
+```
 
 ## Clonar el repositorio
 
@@ -42,29 +42,30 @@ ProyectoVisionArtificial/
 cd /home/rusok/Documentos
 git clone https://github.com/WinTux/ProyectoVisionArtificial.git
 cd ProyectoVisionArtificial
-
+```
 ### Crear y activar el entornno virtual
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-
+```
 ### Instalar las dependencias necesarias
 ```bash
 pip install --upgrade pip
 pip install -r requirements.txt
-
+```
 ### Abrir el proyecto con Visual Studio Code
 ```bash
 code .
-
+```
 ### Seleccionar el intérprete del entorno virtual
 ```bash
 Ctrl+Shift+P → Python: Select Interpreter → venv/bin/python
-
+```
 ### Ejecutar el proyecto
 ```bash
 python main.py
-
+```
 ### Finalizar el entorno virtual
 ```bash
 deactivate
+```
