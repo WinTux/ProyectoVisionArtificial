@@ -35,7 +35,6 @@ ProyectoVisionArtificial/
 │       └── script.js
 └── README.md                  # Este archivo
 
----
 
 ## Clonar el repositorio
 
