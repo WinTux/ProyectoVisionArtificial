@@ -13,14 +13,14 @@ while True:
 
     frame = cv2.resize(frame, (640, 480))
     resultados = detectar_vehiculos(frame)
-    cant_por_cuadrantes = analizar_cuadrantes(resultados)
+    cant_por_cuadrantes = analizar_cuadrantes(resultados,503,370)
 
     total_vehiculos = sum(cant_por_cuadrantes.values())
     print(f"Vehículos detectados: {total_vehiculos} | {cant_por_cuadrantes}")
     imprimir_alertas(cant_por_cuadrantes)
     guardar_reporte(cant_por_cuadrantes)
-    gui = dibujar_gui(frame, resultados)
-    cv2.imshow("Vehículos detectados por cuadrante", gui)
+    gui = dibujar_gui(frame, resultados,503,370)
+    cv2.imshow("Vehiculos detectados por cuadrante", gui)
 
     if cv2.waitKey(1) == 27:  # ESC
         break
