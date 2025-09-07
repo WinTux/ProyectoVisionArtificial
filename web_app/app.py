@@ -3,7 +3,6 @@ import json
 import time
 import cv2
 app = Flask(__name__)
-compartido = None  # Será asignado desde main.py
 @app.route('/')
 def index():
     return render_template('index.html')
