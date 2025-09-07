@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Visión Artificial - Reporte</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Reporte en Tiempo Real</h1>
+
+  <div style="width:50%;">
+    <canvas id="statsChart"></canvas>
+  </div>
+
+  <h2>Video en vivo</h2>
+  <img src="{{ url_for('video_feed') }}" width="640" />
+
+  <script>
+    const ctx = document.getElementById('statsChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Cuadrante 1', 'Cuadrante 2', 'Cuadrante 3', 'Cuadrante 4'],
+        datasets: [{
+          label: 'Conteo',
+          data: [0, 0, 0, 0],
+          borderWidth: 1
+        }]
+      },
+      options: { scales: { y: { beginAtZero: true } } }
+    });
+
+    function fetchData() {
+      fetch('/datos')
+        .then(res => res.json())
+        .then(data => {
+          chart.data.datasets[0].data = [
+            data.cuadrante1,
+            data.cuadrante2,
+            data.cuadrante3,
+            data.cuadrante4
+          ];
+          chart.update();
+        });
+    }
+
+    setInterval(fetchData, 1000);
+    fetchData();
+  </script>
+</body>
+</html>

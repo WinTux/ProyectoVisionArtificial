@@ -1,8 +1,9 @@
+import time
 def analizar_cuadrantes(resultados, ancho_usable=540, alto_usable=380):
     media_ancho = ancho_usable // 2
     media_alto = alto_usable // 2
 
-    cant_por_cuadrantes = {"Q1": 0, "Q2": 0, "Q3": 0, "Q4": 0}
+    cant_por_cuadrantes = {"Q1": 0, "Q2": 0, "Q3": 0, "Q4": 0, "Timestamp": time.time()}
 
     for r in resultados:
         for box in r.boxes:
@@ -24,5 +25,4 @@ def analizar_cuadrantes(resultados, ancho_usable=540, alto_usable=380):
                 cant_por_cuadrantes["Q3"] += 1
             else:
                 cant_por_cuadrantes["Q4"] += 1
-
     return cant_por_cuadrantes
