@@ -4,19 +4,62 @@
   <meta charset="UTF-8">
   <title>Visión Artificial - Reporte</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-  <h1>Reporte en Tiempo Real</h1>
+<body class="bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h5">Lic. Rubén Gonzalo Soria Soria</span>
+      <div class="mx-auto text-white fw-bold">
+        Detección de tráfico de vehículos en puntos céntricos de la ciudad de La Paz mediante cámaras de seguridad
+      </div>
+    </div>
+  </nav>
+  <div class="container my-4">
+    <br><br>
+    <h1 class="text-center mb-4">Reporte en Tiempo Real</h1>
 
-  <div style="width:50%;">
-    <canvas id="statsChart"></canvas>
+    <!-- Gráficas -->
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title text-center">Conteo Actual</h5>
+            <canvas id="statsChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title text-center">Evolución por Cuadrante</h5>
+            <canvas id="statsChart2"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video en vivo -->
+    <div class="row mt-5">
+      <div class="col text-center">
+        <h2>Video en vivo</h2>
+        <div class="card shadow-sm d-inline-block">
+          <div class="card-body">
+            <img src="{{ url_for('video_feed') }}" class="img-fluid rounded" alt="Video en vivo" />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <h2>Video en vivo</h2>
-  <img src="{{ url_for('video_feed') }}" width="640" />
-
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Script para actualizar las gráficas -->
   <script>
     const ctx = document.getElementById('statsChart').getContext('2d');
+    const ctx2 = document.getElementById('statsChart2').getContext('2d');
     const chart = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -27,9 +70,59 @@
           borderWidth: 1
         }]
       },
-      options: { scales: { y: { beginAtZero: true } } }
+      options: { scales: { y: { beginAtZero: true , suggestedMax: 7} } }
     });
-
+    const chart2 = new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: [], // aquí irán los timestamps
+        datasets: [
+          {
+            label: 'Q1',
+            data: [],
+            borderColor: 'red',
+            fill: false,
+            tension: 0.1
+          },
+          {
+            label: 'Q2',
+            data: [],
+            borderColor: 'blue',
+            fill: false,
+            tension: 0.1
+          },
+          {
+            label: 'Q3',
+            data: [],
+            borderColor: 'green',
+            fill: false,
+            tension: 0.1
+          },
+          {
+            label: 'Q4',
+            data: [],
+            borderColor: 'orange',
+            fill: false,
+            tension: 0.1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            suggestedMax: 7
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Timestamp'
+            }
+          }
+        }
+      }
+    });
     function fetchData() {
       fetch('/datos')
         .then(res => res.json())
@@ -42,6 +135,22 @@
             data.Q4
           ];
           chart.update();
+          // Segundo chart: con timestamp
+          chart2.data.labels.push(new Date(data.Timestamp * 1000).toLocaleTimeString());
+
+          // Agrego los valores de cada Q
+          chart2.data.datasets[0].data.push(data.Q1);
+          chart2.data.datasets[1].data.push(data.Q2);
+          chart2.data.datasets[2].data.push(data.Q3);
+          chart2.data.datasets[3].data.push(data.Q4);
+
+          // Mantengo solo los últimos 20 puntos para no saturar
+          if (chart2.data.labels.length > 20) {
+            chart2.data.labels.shift();
+            chart2.data.datasets.forEach(ds => ds.data.shift());
+          }
+
+          chart2.update();
         });
     }
 
