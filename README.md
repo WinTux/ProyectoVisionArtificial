@@ -31,8 +31,9 @@ ProyectoVisionArtificial/
 │   ├── app.py
 │   ├── templates/
 │   │   └── index.html
-│   └── static/
-│       └── script.js
+│   └── resources/
+│       └── datos_para_reporte.json # Se genera durante la ejecución
+│       └── frame.jpg               # Se genera durante la ejecución
 └── README.md                  # Este archivo
 ```
 
