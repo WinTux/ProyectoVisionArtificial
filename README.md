@@ -63,9 +63,15 @@ code .
 Ctrl+Shift+P → Python: Select Interpreter → venv/bin/python
 ```
 ### Ejecutar el proyecto
+En una primera consola:
 ```bash
 python main.py
 ```
+En una segunda consola:
+```bash
+python app.py
+```
+En un navegador nos dirigimos a http://localhost:5000
 ### Finalizar el entorno virtual
 ```bash
 deactivate
