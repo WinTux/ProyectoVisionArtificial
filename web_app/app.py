@@ -23,8 +23,6 @@ def gen_frames():
             _, buffer = cv2.imencode('.jpg', frame)
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
-            print("ESTA EN gen_frames: Frame enviado")
-        print("ESTA EN gen_frames: Dormirá 5 segundos")
         time.sleep(1)  # Leer un nuevo frame cada 1 segundo
 
 @app.route('/video_feed')

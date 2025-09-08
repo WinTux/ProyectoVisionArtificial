@@ -34,11 +34,12 @@
       fetch('/datos')
         .then(res => res.json())
         .then(data => {
+          console.log("Datos recibidos para reporte:", data);
           chart.data.datasets[0].data = [
-            data.cuadrante1,
-            data.cuadrante2,
-            data.cuadrante3,
-            data.cuadrante4
+            data.Q1,
+            data.Q2,
+            data.Q3,
+            data.Q4
           ];
           chart.update();
         });

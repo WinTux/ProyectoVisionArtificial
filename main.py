@@ -28,7 +28,7 @@ while True:
     gui = dibujar_gui(frame, resultados,503,370)
     cv2.imshow("Vehiculos detectados por cuadrante", gui)
     # Guardar frame cada 2 segundos
-    if time.time() - ultimo_guardado >= 2:
+    if time.time() - ultimo_guardado >= 1:
         cv2.imwrite("web_app/resources/frame_tmp.jpg", gui)
         os.replace("web_app/resources/frame_tmp.jpg", "web_app/resources/frame.jpg")
 
