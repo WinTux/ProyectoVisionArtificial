@@ -18,14 +18,16 @@ def data():
 
 def gen_frames():
     while True:
-        frame = cv2.imread("web_app/resources/frame.jpg")
-        if frame is not None:
+        frame = cv2.imread("resources/frame.jpg")
+        if frame is not None and frame.size > 0:
             _, buffer = cv2.imencode('.jpg', frame)
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
-        time.sleep(5)  # Leer un nuevo frame cada 5 segundos
+            print("ESTA EN gen_frames: Frame enviado")
+        print("ESTA EN gen_frames: Dormirá 5 segundos")
+        time.sleep(1)  # Leer un nuevo frame cada 1 segundo
 
-@app.route('/fuente_video')
+@app.route('/video_feed')
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 if __name__ == "__main__":
